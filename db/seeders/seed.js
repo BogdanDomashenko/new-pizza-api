@@ -1,5 +1,5 @@
 require("dotenv").config();
-const sequelize = require("../../db");
+const sequelize = require("../db");
 const { seedProducts } = require("./Products/seedProducts");
 const { seedUsers } = require("./User/seedUsers");
 
