@@ -8,3 +8,12 @@ services:
     ports:
       - "3306:3306"
     restart: on-failure
+  elasticsearch:
+    image: elasticsearch:8.3.3
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+    ports:
+      - target: 9200
+        published: 9200

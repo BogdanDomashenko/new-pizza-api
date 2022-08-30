@@ -37,10 +37,15 @@ exports.refreshToken = (req, res, next) => {
 				process.env.REFRESH_TOKEN_SECRET,
 				async (err, user) => {
 					if (err) return next(ApiError.unauthorized());
-
-					const { id, phoneNumber, role } = await UserModel.findOne({
+					const dbUser = await UserModel.findOne({
 						where: { id: user.id },
 					});
+
+					if (!dbUser) {
+						return next(ApiError.unauthorized());
+					}
+
+					const { id, phoneNumber, role } = dbUser;
 					const data = { id, phoneNumber, role };
 
 					const accessToken = generateAccessToken(data);
