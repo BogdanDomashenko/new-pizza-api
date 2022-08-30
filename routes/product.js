@@ -12,6 +12,7 @@ const {
 	addType,
 	deleteSize,
 	deleteType,
+	searchProduct,
 } = require("../controllers/productController");
 const verifyRoles = require("../middleware/verifyRoles");
 const { ROLES } = require("../utils/constants/userRolesConsts");
@@ -29,5 +30,6 @@ router.post("/add-size", verifyRoles(ROLES.admin), addSize);
 router.post("/add-type", verifyRoles(ROLES.admin), addType);
 router.post("/delete-size", verifyRoles(ROLES.admin), deleteSize);
 router.post("/delete-type", verifyRoles(ROLES.admin), deleteType);
+router.get("/search", searchProduct);
 
 module.exports = router;

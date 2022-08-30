@@ -1,3 +1,4 @@
+const { elasticClient } = require("../db/elastic");
 const ApiError = require("../error/ApiError");
 const {
 	ProductModel,
@@ -165,6 +166,25 @@ exports.deleteType = async (req, res, next) => {
 		await TypeModel.destroy({ where: { id } });
 
 		res.sendStatus(200);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+exports.searchProduct = async (req, res, next) => {
+	try {
+		const { name } = req.query;
+
+		const elasticIndex = await elasticClient.indices.exists({
+			index: "products",
+		});
+
+		const products = await elasticClient.search({
+			index: "products",
+			query: { fuzzy: { name } },
+		});
+
+		res.json(products);
 	} catch (err) {
 		return next(err);
 	}

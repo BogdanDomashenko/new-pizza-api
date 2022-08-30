@@ -4,7 +4,7 @@ const {
 	SizeModel,
 	CategoryModel,
 	ProductImage,
-} = require("../../models/ProductModels");
+} = require("../../../models/ProductModels");
 
 const categories = [
 	{ id: 1, name: "Pizzas" },

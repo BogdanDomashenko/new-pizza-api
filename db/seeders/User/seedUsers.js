@@ -1,15 +1,17 @@
 const bcrypt = require("bcrypt");
-const { ProductModel } = require("../../models/ProductModels");
+const { ProductModel } = require("../../../models/ProductModels");
 const {
 	UserModel,
 	OrderModel,
 	OrderProductsModel,
 	DeliveryModel,
-} = require("../../models/UserModels");
-const { DeliveryService } = require("../../services/DeliveryService");
-const { OrderService } = require("../../services/OrderService");
-const { ORDER_STATUSES } = require("../../utils/constants/orderStatusesConsts");
-const { ROLES } = require("../../utils/constants/userRolesConsts");
+} = require("../../../models/UserModels");
+const { DeliveryService } = require("../../../services/DeliveryService");
+const { OrderService } = require("../../../services/OrderService");
+const {
+	ORDER_STATUSES,
+} = require("../../../utils/constants/orderStatusesConsts");
+const { ROLES } = require("../../../utils/constants/userRolesConsts");
 
 exports.seedUsers = async () => {
 	const hashedPassword = await bcrypt.hash("test", 3);
