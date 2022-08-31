@@ -5,7 +5,7 @@
 	"scripts": {
 		"db:seed": "node ./db/seeders/seed",
 		"db:rm": "sudo docker compose rm db -s -f -v",
-		"db:up": "sudo docker compose up db -d",
+		"db:up": "sudo docker compose up db -d && sleep 15 && npm run db:seed && sudo docker compose up elasticsearch -d",
 		"db:restart": "npm run db:rm && npm run db:up",
 		"start": "node ./bin/www",
 		"dev": "nodemon ./bin/www"

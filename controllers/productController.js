@@ -175,16 +175,17 @@ exports.searchProduct = async (req, res, next) => {
 	try {
 		const { name } = req.query;
 
-		const elasticIndex = await elasticClient.indices.exists({
+		/* 		const elasticIndex = await elasticClient.indices.exists({
 			index: "products",
+		}); */
+
+		const result = await elasticClient.search({
+			index: "products",
+			query: { fuzzy: { name: name.toLowerCase() } },
+			min_score: 0.5,
 		});
 
-		const products = await elasticClient.search({
-			index: "products",
-			query: { fuzzy: { name } },
-		});
-
-		res.json(products);
+		res.json(result);
 	} catch (err) {
 		return next(err);
 	}
