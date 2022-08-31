@@ -1,4 +1,10 @@
-const { SizeModel, TypeModel } = require("../models/ProductModels");
+const {
+	SizeModel,
+	TypeModel,
+	ProductModel,
+	ProductImage,
+	CategoryModel,
+} = require("../models/ProductModels");
 const { parseOrderProps } = require("../utils/helpers/order");
 
 exports.ProductService = {
@@ -45,5 +51,33 @@ exports.ProductService = {
 		console.log(await PizzaOrdersModel.findAll({ where: { orderID: 99 } }));
 
 		return UserOrder;
+	},
+	async getAllAvailable() {
+		const products = await ProductModel.findAll({
+			distinct: true,
+			attributes: ["id", "name", "price", "rating"],
+			include: [
+				{
+					model: SizeModel,
+					where: {},
+					through: { attributes: [] },
+				},
+				{
+					model: TypeModel,
+
+					where: {},
+					through: { attributes: [] },
+				},
+				{
+					model: ProductImage,
+					attributes: ["url"],
+				},
+				{
+					model: CategoryModel,
+				},
+			],
+		});
+
+		return products;
 	},
 };
