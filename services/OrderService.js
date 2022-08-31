@@ -22,9 +22,24 @@ exports.OrderService = {
 		let totalCount = 0;
 
 		for (let product of products) {
-			const { price: productPrice } = await ProductModel.findOne({
+			let additionalPrice = 0;
+
+			const {
+				price: productPrice,
+				Types,
+				Sizes,
+			} = await ProductModel.findOne({
 				where: { id: product.id },
+				include: [TypeModel, SizeModel],
 			});
+
+			additionalPrice =
+				Types.find((type) => type.id === product.TypeId).price ||
+				0 + Sizes.find((size) => size.id === product.SizeId).price ||
+				0;
+
+			console.log("ADITIONAL", additionalPrice);
+
 			totalPrice += productPrice * product.count;
 			totalCount += product.count;
 
