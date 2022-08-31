@@ -235,7 +235,7 @@ exports.seedProducts = async () => {
 	const createdSizes = await SizeModel.bulkCreate(sizes);
 	const createdTypes = await TypeModel.bulkCreate(types);
 
-	pizzas.forEach(async (product) => {
+	/* 	pizzas.forEach(async (product) => {
 		const newProduct = await ProductModel.create(product, {
 			include: ProductImage,
 		});
@@ -251,9 +251,27 @@ exports.seedProducts = async () => {
 				await newProduct.addType(type);
 			}
 		});
-	});
+	}); */
 
-	drinks.forEach(async (drink) => {
+	for (const product of pizzas) {
+		const newProduct = await ProductModel.create(product, {
+			include: ProductImage,
+		});
+
+		for (const size of createdSizes) {
+			if (size.dataValues.name !== "none" && size.name !== "none") {
+				await newProduct.addSize(size);
+			}
+		}
+
+		for (const type of createdTypes) {
+			if (type.dataValues.name !== "none" && type.name !== "none") {
+				await newProduct.addType(type);
+			}
+		}
+	}
+
+	/* 	drinks.forEach(async (drink) => {
 		const newDrink = await ProductModel.create(drink, {
 			include: ProductImage,
 		});
@@ -269,5 +287,22 @@ exports.seedProducts = async () => {
 				await newDrink.addType(type);
 			}
 		});
-	});
+	}); */
+	for (const drink of drinks) {
+		const newDrink = await ProductModel.create(drink, {
+			include: ProductImage,
+		});
+
+		for (const size of createdSizes) {
+			if (size.dataValues.name == "none" && size.name == "none") {
+				await newDrink.addSize(size);
+			}
+		}
+
+		for (const type of createdTypes) {
+			if (type.dataValues.name == "none" && type.name == "none") {
+				await newDrink.addType(type);
+			}
+		}
+	}
 };
