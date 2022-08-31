@@ -185,7 +185,9 @@ exports.searchProduct = async (req, res, next) => {
 			min_score: 0.5,
 		});
 
-		res.json(result.hits.hits);
+		const products = result.hits.hits.map((hit) => hit._source);
+
+		res.json(products);
 	} catch (err) {
 		return next(err);
 	}

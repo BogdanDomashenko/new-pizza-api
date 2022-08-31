@@ -12,7 +12,8 @@ const esAction = {
 
 exports.ElasticDeamon = {
 	start() {
-		cron.schedule("*/10 * * * * *", this.update);
+		this.update();
+		cron.schedule("0 * * * *", this.update);
 	},
 	async update() {
 		try {
@@ -25,11 +26,11 @@ exports.ElasticDeamon = {
 				index: "products",
 			});
 
-			/* 			if (elasticIndex) {
+			if (elasticIndex) {
 				await elasticClient.indices.delete({ index: "products" });
 			}
 
-			await elasticClient.indices.create({ index: "products" }); */
+			await elasticClient.indices.create({ index: "products" });
 
 			const docs = [];
 			for (const product of products) {
@@ -37,6 +38,8 @@ exports.ElasticDeamon = {
 				docs.push(product);
 			}
 
+			await elasticClient.bulk({ body: docs });
+			/* 
 			if (!elasticIndex) {
 				await elasticClient.indices.create({ index: "products" });
 				await elasticClient.bulk({ body: docs });
@@ -45,9 +48,8 @@ exports.ElasticDeamon = {
 					index: "products",
 					body: docs,
 				});
-			}
+			} */
 
-			//await elasticClient.bulk({ body: docs });
 			console.log("Elastic updated!");
 		} catch (e) {
 			console.log(e);

@@ -73,7 +73,7 @@ const start = async () => {
 		await sequelize.authenticate();
 		await sequelize.sync();
 
-		await ElasticDeamon.start();
+		ElasticDeamon.start();
 	} catch (e) {
 		console.log(e);
 	}
