@@ -33,19 +33,19 @@ exports.OrderService = {
 				include: [TypeModel, SizeModel],
 			});
 
-			additionalPrice =
-				Types.find((type) => type.id === product.TypeId).price ||
-				0 + Sizes.find((size) => size.id === product.SizeId).price ||
-				0;
+			const typePrice =
+				Types.find((type) => type.id === product.TypeId).price || 0;
+			const sizePrice =
+				Sizes.find((size) => size.id === product.SizeId).price || 0;
 
-			console.log("ADITIONAL", additionalPrice);
+			additionalPrice = typePrice + sizePrice;
 
-			totalPrice += productPrice * product.count;
+			totalPrice += (productPrice + additionalPrice) * product.count;
 			totalCount += product.count;
 
 			await OrderProductsModel.create({
 				count: product.count,
-				totalPrice: productPrice * product.count,
+				totalPrice: (productPrice + additionalPrice) * product.count,
 				ProductId: product.id,
 				OrderId: order.id,
 				TypeId: product.TypeId,
