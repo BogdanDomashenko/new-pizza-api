@@ -52,7 +52,7 @@ exports.ProductService = {
 
 		return UserOrder;
 	},
-	async getAllAvailable() {
+	async getAvailable(id) {
 		const products = await ProductModel.findAll({
 			distinct: true,
 			attributes: ["id", "name", "price", "rating"],
@@ -76,6 +76,7 @@ exports.ProductService = {
 					model: CategoryModel,
 				},
 			],
+			...(id && { where: { id } }),
 		});
 
 		return products;

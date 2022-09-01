@@ -20,7 +20,8 @@ const callBacksRouter = require("./routes/callBacks");
 
 const errorHandler = require("./middleware/ErrorHandling");
 const verifyToken = require("./middleware/verifyToken");
-const { ElasticDeamon } = require("./elastic-deamon/ElasticDeamon");
+const { ElasticService } = require("./services/ElasticService");
+const { elsaticConnect } = require("./db/elastic");
 
 const app = express();
 
@@ -73,7 +74,7 @@ const start = async () => {
 		await sequelize.authenticate();
 		await sequelize.sync();
 
-		ElasticDeamon.start();
+		await elsaticConnect();
 	} catch (e) {
 		console.log(e);
 	}

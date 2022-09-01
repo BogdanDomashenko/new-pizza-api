@@ -1,5 +1,6 @@
 const sequelize = require("../db/db");
 const { DataTypes } = require("sequelize");
+const { ElasticService } = require("../services/ElasticService");
 
 const ProductModel = sequelize.define("Products", {
 	id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },

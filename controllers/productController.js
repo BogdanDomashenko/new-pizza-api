@@ -33,8 +33,21 @@ exports.productUpdate = async (req, res, next) => {
 	try {
 		const { pizza } = req.body;
 
-		await ProductModel.update(pizza, { where: { id: pizza.id } });
-		return res.sendStatus(200);
+		console.log(pizza);
+
+		const product = await ProductModel.update(pizza, {
+			where: { id: pizza.id },
+			include: ProductImage,
+		});
+
+		await ProductImage.destroy({ where: { ProductId: pizza.id } });
+
+		for (image of pizza.ProductImages) {
+			await ProductImage.create({ url: image.url, ProductId: pizza.id });
+		}
+
+		console.log(product);
+		return res.sendStatus(201);
 	} catch (err) {
 		return next(err);
 	}
@@ -62,11 +75,14 @@ exports.productTypes = async (req, res, next) => {
 
 exports.addProduct = async (req, res, next) => {
 	try {
-		const { name, images, price, category: categoryId, rating } = req.body;
+		const {
+			name,
+			ProductImages,
+			price,
+			category: categoryId,
+			rating,
+		} = req.body;
 
-		const ProductImages = images.split(", ").map((url) => ({
-			url,
-		}));
 		const newProduct = await ProductModel.create(
 			{
 				name,
