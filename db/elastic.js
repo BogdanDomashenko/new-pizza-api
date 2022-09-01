@@ -20,6 +20,11 @@ exports.elsaticConnect = async () => {
 
 		await this.elasticClient.indices.create({ index: "products" });
  */
+
+		if (!elasticIndex) {
+			await this.elasticClient.indices.create({ index: "products" });
+		}
+
 		const docs = [];
 		for (const product of products) {
 			docs.push({
