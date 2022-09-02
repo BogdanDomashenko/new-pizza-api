@@ -14,16 +14,15 @@ exports.elsaticConnect = async () => {
 
 		console.log("Elastic connected!");
 
-		/* if (elasticIndex) {
+		if (elasticIndex) {
 			await this.elasticClient.indices.delete({ index: "products" });
 		}
 
 		await this.elasticClient.indices.create({ index: "products" });
- */
 
-		if (!elasticIndex) {
+		/* 		if (!elasticIndex) {
 			await this.elasticClient.indices.create({ index: "products" });
-		}
+		} */
 
 		const docs = [];
 		for (const product of products) {

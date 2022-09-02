@@ -6,6 +6,7 @@ const logger = require("morgan");
 const sequelize = require("./db/db");
 const session = require("express-session");
 const cors = require("cors");
+const cron = require("node-cron");
 
 const indexRouter = require("./routes/index");
 const stockRouter = require("./routes/stock");
@@ -74,7 +75,9 @@ const start = async () => {
 		await sequelize.authenticate();
 		await sequelize.sync();
 
-		await elsaticConnect();
+		cron.schedule("* * * * *", function () {
+			elsaticConnect();
+		});
 	} catch (e) {
 		console.log(e);
 	}
